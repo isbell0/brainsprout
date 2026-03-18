@@ -1,0 +1,52 @@
+:root {
+    --purple: #9290ff; --green: #68c3a3; --pink: #fde2e4; --dark: #2d5a42;
+}
+
+body { 
+    background: #1a1a1a; display: flex; justify-content: center; align-items: center; 
+    height: 100vh; margin: 0; font-family: sans-serif; 
+}
+
+.mobile-container {
+    width: 375px; height: 812px; background: white; border-radius: 40px;
+    position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+.screen { 
+    display: none; flex-direction: column; height: 100%; padding: 40px 20px; 
+    box-sizing: border-box; text-align: center; overflow-y: auto;
+}
+
+.screen.active { display: flex; }
+
+/* Elements */
+.logo-text { font-size: 2.5rem; margin-bottom: 0; }
+.tagline { background: var(--green); color: white; display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; }
+.mascot-lg { font-size: 100px; margin: 30px 0; }
+.promo-box { background: var(--pink); padding: 15px; border-radius: 15px; margin: 20px 0; }
+
+.btn { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin: 5px 0; }
+.btn-primary { background: var(--purple); color: white; }
+.btn-green { background: var(--green); color: white; }
+
+.input-field { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: var(--pink); box-sizing: border-box; }
+
+/* Grid & Layouts */
+.subject-grid, .store-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+.subject-card, .item { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer; }
+.subject-card.active { border-color: var(--green); background: #f0fff4; }
+
+.bottom-nav { 
+    position: absolute; bottom: 0; width: 100%; height: 70px; 
+    background: var(--dark); display: flex; justify-content: space-around; align-items: center; 
+    border-radius: 20px 20px 0 0; color: white; font-size: 1.5rem; cursor: pointer;
+}
+
+/* Feed */
+.stories { display: flex; gap: 15px; overflow-x: auto; padding: 10px 0; }
+.circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; background: #eee; }
+.video-card { height: 300px; background: #333; border-radius: 20px; position: relative; color: white; padding: 20px; text-align: left; }
+
+/* Reflection & Summary */
+.emoji-grid { font-size: 2rem; display: flex; justify-content: space-around; margin: 20px 0; }
+textarea { width: 100%; height: 80px; border-radius: 10px; padding: 10px; margin-bottom: 20px; }
