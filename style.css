@@ -1,52 +1,35 @@
 :root {
-    --purple: #9290ff; --green: #68c3a3; --pink: #fde2e4; --dark: #2d5a42;
+    --purple: #9290ff; --green: #68c3a3; --pink: #fde2e4; --nav: #2d5a42;
 }
 
-body { 
-    background: #1a1a1a; display: flex; justify-content: center; align-items: center; 
-    height: 100vh; margin: 0; font-family: sans-serif; 
-}
+body { margin: 0; background: #222; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Inter', sans-serif; }
 
-.mobile-container {
-    width: 375px; height: 812px; background: white; border-radius: 40px;
-    position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-}
+.mobile-container { width: 375px; height: 812px; background: white; border-radius: 40px; position: relative; overflow: hidden; }
 
-.screen { 
-    display: none; flex-direction: column; height: 100%; padding: 40px 20px; 
-    box-sizing: border-box; text-align: center; overflow-y: auto;
-}
-
+.screen { display: none; flex-direction: column; height: 100%; padding: 25px; box-sizing: border-box; text-align: center; overflow-y: auto; }
 .screen.active { display: flex; }
 
-/* Elements */
-.logo-text { font-size: 2.5rem; margin-bottom: 0; }
-.tagline { background: var(--green); color: white; display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; }
-.mascot-lg { font-size: 100px; margin: 30px 0; }
-.promo-box { background: var(--pink); padding: 15px; border-radius: 15px; margin: 20px 0; }
+/* Podium Layout */
+.podium { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 160px; margin: 20px 0; }
+.pod-item { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.pod-bar { width: 100%; background: var(--purple); color: white; border-radius: 10px 10px 0 0; padding-top: 10px; }
+.first .pod-bar { height: 80px; background: #7b79e6; }
+.second .pod-bar { height: 60px; }
+.third .pod-bar { height: 40px; }
 
-.btn { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin: 5px 0; }
-.btn-primary { background: var(--purple); color: white; }
-.btn-green { background: var(--green); color: white; }
+/* Stats Cards */
+.stats-row { display: flex; justify-content: space-between; margin: 20px 0; }
+.stat-card { background: #f8f8f8; padding: 10px; border-radius: 12px; flex: 1; margin: 0 5px; font-size: 0.7rem; border: 1px solid #eee; }
 
-.input-field { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: var(--pink); box-sizing: border-box; }
+/* Store Grid */
+.accessory-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+.acc-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 10px; font-size: 0.8rem; }
+.acc-card button { width: 100%; background: var(--green); border: none; color: white; border-radius: 5px; margin-top: 5px; }
 
-/* Grid & Layouts */
-.subject-grid, .store-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
-.subject-card, .item { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer; }
-.subject-card.active { border-color: var(--green); background: #f0fff4; }
+/* UI Elements */
+.logo-serif { font-family: 'DM Serif Display', serif; font-size: 3rem; margin: 0; }
+.btn-purple { background: var(--purple); color: white; padding: 15px; border-radius: 15px; border: none; width: 100%; font-weight: bold; }
+.btn-green-wide { background: var(--green); color: white; padding: 15px; border-radius: 25px; border: none; width: 100%; font-weight: bold; margin-top: auto; cursor: pointer; }
+.inline-input { border: none; border-bottom: 2px solid var(--purple); width: 120px; text-align: center; font-size: 1rem; }
 
-.bottom-nav { 
-    position: absolute; bottom: 0; width: 100%; height: 70px; 
-    background: var(--dark); display: flex; justify-content: space-around; align-items: center; 
-    border-radius: 20px 20px 0 0; color: white; font-size: 1.5rem; cursor: pointer;
-}
-
-/* Feed */
-.stories { display: flex; gap: 15px; overflow-x: auto; padding: 10px 0; }
-.circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; background: #eee; }
-.video-card { height: 300px; background: #333; border-radius: 20px; position: relative; color: white; padding: 20px; text-align: left; }
-
-/* Reflection & Summary */
-.emoji-grid { font-size: 2rem; display: flex; justify-content: space-around; margin: 20px 0; }
-textarea { width: 100%; height: 80px; border-radius: 10px; padding: 10px; margin-bottom: 20px; }
+.footer-nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: var(--nav); border-radius: 25px 25px 0 0; display: flex; justify-content: space-around; align-items: center; font-size: 1.5rem; color: white; }
