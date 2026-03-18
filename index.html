@@ -2,66 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainSprout | Watch. Learn. Grow.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BrainSprout | Full Interactive</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="mobile-container">
-        <section id="start-page" class="screen active">
-            <h1 class="logo-text">BrainSprout</h1>
-            <div class="tagline">Where Scrolling Meets Learning</div>
-            <div class="mascot-lg">🧠</div>
-            <h2>Watch. Learn. Grow.</h2>
-            <div class="promo-box">Try something new. <br> Grow a little every day.</div>
-            <button class="btn btn-primary" onclick="navigateTo('login-page')">Get Started</button>
-        </section>
-
-        <section id="login-page" class="screen">
-            <div class="mascot-sm">🧠</div>
-            <h2 class="logo-text-sm">BrainSprout</h2>
-            <div class="form-group">
-                <input type="email" placeholder="Email" class="input-field">
-                <input type="password" placeholder="Password" class="input-field">
-                <button class="btn btn-green" onclick="navigateTo('content-picker')">Login</button>
+        
+        <section id="start-page" class="screen active bg-white">
+            <h1 class="logo-serif">BrainSprout</h1>
+            <div class="tagline-pill">Where Scrolling Meets Learning</div>
+            <div class="mascot-hero">🧠</div>
+            <div class="hero-bottom">
+                <h3>Watch. Learn. Grow.</h3>
+                <div class="promo-card">Try something new. <br> <strong>Grow a little every day.</strong></div>
+                <button class="btn-purple" onclick="navigateTo('login-page')">Get Started</button>
             </div>
-            <div class="divider">or continue with</div>
-            <div class="social-auth"><span>G</span><span>f</span><span></span></div>
-            <p onclick="navigateTo('start-page')" style="cursor:pointer">Create An Account</p>
-        </section>
-
-        <section id="content-picker" class="screen">
-            <h3>Choose What You Love</h3>
-            <div class="subject-grid">
-                <div class="subject-card active"><span>Σ</span><p>Math</p></div>
-                <div class="subject-card"><span>🧪</span><p>Science</p></div>
-                <div class="subject-card active"><span>🌿</span><p>Biology</p></div>
-                <div class="subject-card"><span>⚗️</span><p>Chemistry</p></div>
-                <div class="subject-card"><span>⚛️</span><p>Physics</p></div>
-                <div class="subject-card"><span>📜</span><p>History</p></div>
-                <div class="subject-card"><span>📖</span><p>Literature</p></div>
-                <div class="subject-card"><span>💻</span><p>Comp Sci</p></div>
-                <div class="subject-card"><span>🎨</span><p>Art</p></div>
-            </div>
-            <button class="btn btn-green" onclick="navigateTo('homepage')">NEXT →</button>
         </section>
 
         <section id="homepage" class="screen">
-            <div class="home-header">
-                <span class="logo-text-sm">BrainSprout</span>
-                <div class="coin-pill">602 🪙</div>
+            <div class="app-header">
+                <span class="logo-serif-sm">BrainSprout</span>
+                <div class="coin-badge">602 🪙</div>
             </div>
-            <div class="stories">
-                <div class="story"><div class="circle plus">+</div><p>My Story</p></div>
-                <div class="story"><div class="circle">👩‍🏫</div><p>Selena</p></div>
-                <div class="story"><div class="circle">🔬</div><p>Clara</p></div>
-                <div class="story"><div class="circle">🎨</div><p>Fabian</p></div>
+            <div class="stories-row">
+                <div class="story-circle plus">+</div>
+                <div class="story-circle">👩‍🏫</div>
+                <div class="story-circle">🔬</div>
+                <div class="story-circle">🎨</div>
             </div>
-            <div class="video-feed" onclick="navigateTo('quiz-page')">
-                <div class="video-card">
-                    <span class="tag">Math</span>
-                    <div class="v-info">
+            <div class="feed-tabs">
+                <button class="tab-btn active">Explore Page</button>
+                <button class="tab-btn">Subject Page</button>
+            </div>
+            <div class="main-video" onclick="navigateTo('quiz-mcq')">
+                <div class="v-card">
+                    <span class="v-tag">Math</span>
+                    <div class="v-meta">
                         <h4>AP Calculus: Integrals</h4>
                         <p>LearnWithFranny</p>
                     </div>
@@ -69,71 +48,118 @@
             </div>
         </section>
 
-        <section id="quiz-page" class="screen">
-            <div class="quiz-header">
-                <button class="back" onclick="navigateTo('homepage')">‹</button>
-                <div class="progress-bar"><div class="fill" style="width:70%"></div></div>
+        <section id="quiz-mcq" class="screen">
+            <div class="quiz-nav">
+                <button onclick="navigateTo('homepage')">‹</button>
+                <div class="p-bar"><div class="p-fill" style="width: 30%;"></div></div>
             </div>
             <h2>Pop Quiz Time!</h2>
             <div class="quiz-box">
-                <p class="question">What is the sum of interior angles in any triangle?</p>
+                <span class="q-label">MCQ</span>
+                <p>What is the sum of interior angles in any triangle?</p>
                 <div class="options">
-                    <button class="opt" onclick="sel(this)">90 degrees</button>
-                    <button class="opt" onclick="sel(this)">180 degrees</button>
-                    <button class="opt" onclick="sel(this)">360 degrees</button>
+                    <button class="opt" onclick="selectOpt(this)">90 degrees</button>
+                    <button class="opt selected" onclick="selectOpt(this)">180 degrees</button>
+                    <button class="opt" onclick="selectOpt(this)">360 degrees</button>
                 </div>
             </div>
-            <button class="btn btn-green" onclick="navigateTo('reflection')">Submit Answer</button>
+            <button class="btn-green-wide" onclick="navigateTo('quiz-blank')">Submit Answer</button>
         </section>
 
-        <section id="reflection" class="screen">
-            <h3>Reflection Time</h3>
-            <p>How are you feeling today?</p>
-            <div class="emoji-grid">
-                <span>😊</span><span>🤩</span><span>😐</span><span>😴</span>
+        <section id="quiz-blank" class="screen">
+            <div class="quiz-nav">
+                <button onclick="navigateTo('quiz-mcq')">‹</button>
+                <div class="p-bar"><div class="p-fill" style="width: 60%;"></div></div>
             </div>
-            <div class="rating">⭐⭐⭐⭐⭐</div>
-            <textarea placeholder="Coolest thing you learned?"></textarea>
-            <button class="btn btn-green" onclick="navigateTo('summary')">Submit</button>
-        </section>
-
-        <section id="summary" class="screen">
-            <div class="confetti">🎉</div>
-            <h2>You've Earned:</h2>
-            <h1 class="reward-amt">75 Coins 🪙</h1>
-            <button class="btn btn-green" onclick="navigateTo('store')">GO TO STORE</button>
-            <button class="btn" onclick="navigateTo('homepage')">EXIT</button>
-        </section>
-
-        <section id="store" class="screen">
-            <div class="home-header">
-                <h3>Sprout Store</h3>
-                <div class="coin-pill">677 🪙</div>
+            <h2>Pop Quiz Time!</h2>
+            <div class="quiz-box">
+                <span class="q-label">Fill In the Blank</span>
+                <p>The sum of all interior angles in a triangle is always <br> <input type="text" class="inline-input" placeholder="Enter Answer"> <br> degrees</p>
             </div>
-            <div class="store-grid">
-                <div class="item"><div>✨</div><p>Aura</p><button>500 🪙</button></div>
-                <div class="item"><div>🎀</div><p>Bow</p><button>200 🪙</button></div>
-                <div class="item"><div>🕶️</div><p>Cool</p><button>300 🪙</button></div>
-            </div>
+            <button class="btn-green-wide" onclick="navigateTo('summary')">Submit Answer</button>
         </section>
 
         <section id="leaderboard" class="screen">
             <h3>Leaderboard</h3>
+            <div class="rank-banner">#4 You are doing better than 60% of other players!</div>
             <div class="podium">
-                <div class="p-rank">🥈<br>Newjns</div>
-                <div class="p-rank first">🥇<br>Doremon</div>
-                <div class="p-rank">🥉<br>Craig</div>
+                <div class="pod-item second">
+                    <div class="pod-avatar">🐱</div>
+                    <div class="pod-bar">2</div>
+                    <p>Newjns</p>
+                </div>
+                <div class="pod-item first">
+                    <div class="pod-avatar">👑</div>
+                    <div class="pod-bar">1</div>
+                    <p>Doremon0</p>
+                </div>
+                <div class="pod-item third">
+                    <div class="pod-avatar">🐨</div>
+                    <div class="pod-bar">3</div>
+                    <p>Craig11</p>
+                </div>
             </div>
             <div class="rank-list">
-                <div class="r-item"><span>4</span> Jenni0 <span>590 coins</span></div>
+                <div class="rank-row current"><span>4</span> 👤 Jenni0 <span>590 coins</span></div>
+                <div class="rank-row"><span>5</span> 👤 Bellismo11 <span>448 points</span></div>
             </div>
         </section>
 
-        <nav class="bottom-nav">
-            <div onclick="navigateTo('homepage')">🏠</div>
-            <div onclick="navigateTo('leaderboard')">🏆</div>
-            <div onclick="navigateTo('store')">🛍️</div>
-            <div onclick="navigateTo('content-picker')">⚙️</div>
+        <section id="profile" class="screen">
+            <div class="profile-header">
+                <div class="p-pic">👾</div>
+                <h3>@jennio</h3>
+                <p>learning every day</p>
+            </div>
+            <div class="stats-row">
+                <div class="stat-card"><b>24</b><br>Reflections</div>
+                <div class="stat-card"><b>120</b><br>Coins</div>
+                <div class="stat-card"><b>8</b><br>Subjects</div>
+            </div>
+            <div class="profile-tabs">
+                <span>My Reflections</span> <span>Saved</span>
+            </div>
+            <div class="reflection-log">
+                <div class="log-card"><b>History</b><br>The Printing Press Revolution</div>
+                <div class="log-card"><b>Biology</b><br>Photosynthesis & Sunlight</div>
+            </div>
+        </section>
+
+        <section id="summary" class="screen reward-screen">
+            <div class="nav-top"><button onclick="navigateTo('homepage')">‹</button> Summary</div>
+            <div class="confetti-mascot">🧠</div>
+            <h2>You've Earned:</h2>
+            <h1 class="earned-amt">75 Coins 🪙</h1>
+            <div class="reward-btns">
+                <button class="btn-green-wide" onclick="navigateTo('store')">NEXT →</button>
+                <div class="exit-row"><span>REWARDS</span> | <span onclick="navigateTo('homepage')">EXIT</span></div>
+            </div>
+        </section>
+
+        <section id="store" class="screen">
+            <div class="app-header">
+                <h3>Sprout Store</h3>
+                <div class="coin-badge">602 🪙</div>
+            </div>
+            <div class="store-tabs">
+                <button class="s-tab active">Profile Decor</button>
+                <button class="s-tab">Creator Merch</button>
+            </div>
+            <div class="store-main">
+                <div class="store-item large">✨<br>Sprout Aura <button class="buy-small">Buy Now</button></div>
+                <div class="accessory-grid">
+                    <div class="acc-card">🎀<br>500 <button>Buy</button></div>
+                    <div class="acc-card">🎩<br>340 <button>Buy</button></div>
+                    <div class="acc-card">🕶️<br>200 <button>Buy</button></div>
+                </div>
+            </div>
+        </section>
+
+        <nav class="footer-nav">
+            <div class="nav-btn" onclick="navigateTo('homepage')">🏠</div>
+            <div class="nav-btn" onclick="navigateTo('leaderboard')">🏆</div>
+            <div class="nav-btn" onclick="navigateTo('store')">🛍️</div>
+            <div class="nav-btn" onclick="navigateTo('profile')">👤</div>
         </nav>
     </div>
 
