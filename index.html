@@ -3,56 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainSprout - Mobile App</title>
+    <title>BrainSprout | Watch. Learn. Grow.</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="mobile-container">
         <section id="start-page" class="screen active">
-            <div class="content">
-                <h1 class="logo-text">BrainSprout</h1>
-                <div class="tagline">Where Scrolling Meets Learning</div>
-                <div class="hero-image">🧠</div>
-                <h2>Watch. Learn. Grow.</h2>
-                <div class="promo-box">
-                    <p>Try something new. <br> Grow a little every day.</p>
-                </div>
-                <button class="btn btn-primary" onclick="navigateTo('login-page')">Get Started</button>
-            </div>
+            <h1 class="logo-text">BrainSprout</h1>
+            <div class="tagline">Where Scrolling Meets Learning</div>
+            <div class="mascot-lg">🧠</div>
+            <h2>Watch. Learn. Grow.</h2>
+            <div class="promo-box">Try something new. <br> Grow a little every day.</div>
+            <button class="btn btn-primary" onclick="navigateTo('login-page')">Get Started</button>
         </section>
 
         <section id="login-page" class="screen">
-            <div class="header-simple">
-                 <button class="back-btn" onclick="navigateTo('start-page')">‹</button>
-                 <div class="mascot-tiny">🧠</div>
-            </div>
-            <div class="form-container">
-                <h1 class="logo-text-small">BrainSprout</h1>
-                <p>Where Scrolling Meets Learning</p>
+            <div class="mascot-sm">🧠</div>
+            <h2 class="logo-text-sm">BrainSprout</h2>
+            <div class="form-group">
                 <input type="email" placeholder="Email" class="input-field">
                 <input type="password" placeholder="Password" class="input-field">
-                <div class="links-row">
-                    <a href="#" class="forgot-link">Forgot Email?</a>
-                    <a href="#" class="forgot-link">Reset Password?</a>
-                </div>
                 <button class="btn btn-green" onclick="navigateTo('content-picker')">Login</button>
-                <div class="divider">or continue with</div>
-                <div class="social-icons">
-                    <span>G</span> <span>f</span> <span></span>
-                </div>
-                <a href="#" class="create-link">Create An Account</a>
             </div>
+            <div class="divider">or continue with</div>
+            <div class="social-auth"><span>G</span><span>f</span><span></span></div>
+            <p onclick="navigateTo('start-page')" style="cursor:pointer">Create An Account</p>
         </section>
 
         <section id="content-picker" class="screen">
-            <div class="header-simple">
-                <button class="back-btn" onclick="navigateTo('login-page')">‹</button>
-                <div class="mascot-tiny">🧠</div>
-            </div>
             <h3>Choose What You Love</h3>
-            <p class="subtitle">Select subjects you're interested in</p>
-            
             <div class="subject-grid">
                 <div class="subject-card active"><span>Σ</span><p>Math</p></div>
                 <div class="subject-card"><span>🧪</span><p>Science</p></div>
@@ -64,20 +44,96 @@
                 <div class="subject-card"><span>💻</span><p>Comp Sci</p></div>
                 <div class="subject-card"><span>🎨</span><p>Art</p></div>
             </div>
-            
             <button class="btn btn-green" onclick="navigateTo('homepage')">NEXT →</button>
         </section>
 
         <section id="homepage" class="screen">
-            <h3>Welcome Back!</h3>
-            <p>Feed loading...</p>
+            <div class="home-header">
+                <span class="logo-text-sm">BrainSprout</span>
+                <div class="coin-pill">602 🪙</div>
+            </div>
+            <div class="stories">
+                <div class="story"><div class="circle plus">+</div><p>My Story</p></div>
+                <div class="story"><div class="circle">👩‍🏫</div><p>Selena</p></div>
+                <div class="story"><div class="circle">🔬</div><p>Clara</p></div>
+                <div class="story"><div class="circle">🎨</div><p>Fabian</p></div>
+            </div>
+            <div class="video-feed" onclick="navigateTo('quiz-page')">
+                <div class="video-card">
+                    <span class="tag">Math</span>
+                    <div class="v-info">
+                        <h4>AP Calculus: Integrals</h4>
+                        <p>LearnWithFranny</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz-page" class="screen">
+            <div class="quiz-header">
+                <button class="back" onclick="navigateTo('homepage')">‹</button>
+                <div class="progress-bar"><div class="fill" style="width:70%"></div></div>
+            </div>
+            <h2>Pop Quiz Time!</h2>
+            <div class="quiz-box">
+                <p class="question">What is the sum of interior angles in any triangle?</p>
+                <div class="options">
+                    <button class="opt" onclick="sel(this)">90 degrees</button>
+                    <button class="opt" onclick="sel(this)">180 degrees</button>
+                    <button class="opt" onclick="sel(this)">360 degrees</button>
+                </div>
+            </div>
+            <button class="btn btn-green" onclick="navigateTo('reflection')">Submit Answer</button>
+        </section>
+
+        <section id="reflection" class="screen">
+            <h3>Reflection Time</h3>
+            <p>How are you feeling today?</p>
+            <div class="emoji-grid">
+                <span>😊</span><span>🤩</span><span>😐</span><span>😴</span>
+            </div>
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+            <textarea placeholder="Coolest thing you learned?"></textarea>
+            <button class="btn btn-green" onclick="navigateTo('summary')">Submit</button>
+        </section>
+
+        <section id="summary" class="screen">
+            <div class="confetti">🎉</div>
+            <h2>You've Earned:</h2>
+            <h1 class="reward-amt">75 Coins 🪙</h1>
+            <button class="btn btn-green" onclick="navigateTo('store')">GO TO STORE</button>
+            <button class="btn" onclick="navigateTo('homepage')">EXIT</button>
+        </section>
+
+        <section id="store" class="screen">
+            <div class="home-header">
+                <h3>Sprout Store</h3>
+                <div class="coin-pill">677 🪙</div>
+            </div>
+            <div class="store-grid">
+                <div class="item"><div>✨</div><p>Aura</p><button>500 🪙</button></div>
+                <div class="item"><div>🎀</div><p>Bow</p><button>200 🪙</button></div>
+                <div class="item"><div>🕶️</div><p>Cool</p><button>300 🪙</button></div>
+            </div>
+        </section>
+
+        <section id="leaderboard" class="screen">
+            <h3>Leaderboard</h3>
+            <div class="podium">
+                <div class="p-rank">🥈<br>Newjns</div>
+                <div class="p-rank first">🥇<br>Doremon</div>
+                <div class="p-rank">🥉<br>Craig</div>
+            </div>
+            <div class="rank-list">
+                <div class="r-item"><span>4</span> Jenni0 <span>590 coins</span></div>
+            </div>
         </section>
 
         <nav class="bottom-nav">
-            <div class="nav-item" onclick="navigateTo('homepage')">🏠</div>
-            <div class="nav-item" onclick="navigateTo('content-picker')">🧭</div>
-            <div class="nav-item">✉️</div>
-            <div class="nav-item">👤</div>
+            <div onclick="navigateTo('homepage')">🏠</div>
+            <div onclick="navigateTo('leaderboard')">🏆</div>
+            <div onclick="navigateTo('store')">🛍️</div>
+            <div onclick="navigateTo('content-picker')">⚙️</div>
         </nav>
     </div>
 
