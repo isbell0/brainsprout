@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainSprout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="mobile-container">
+        <section id="start-page" class="screen active">
+            <div class="content">
+                <h1 class="logo-text">BrainSprout</h1>
+                <div class="tagline">Where Scrolling Meets Learning</div>
+                <div class="hero-image">🧠</div> <h2>Watch. Learn. Grow.</h2>
+                <div class="promo-box">
+                    <p>Try something new. <br> Grow a little every day.</p>
+                </div>
+                <button class="btn btn-primary" onclick="navigateTo('login-page')">Get Started</button>
+            </div>
+        </section>
+
+        <section id="login-page" class="screen">
+            <div class="header">
+                <div class="mascot-small">🧠</div>
+                <h1 class="logo-text-small">BrainSprout</h1>
+            </div>
+            <div class="form-container">
+                <input type="email" placeholder="Email" class="input-field">
+                <input type="password" placeholder="Password" class="input-field">
+                <a href="#" class="forgot-link">Forgot Password?</a>
+                <button class="btn btn-green">Login</button>
+                <div class="divider">or continue with</div>
+                <div class="social-icons">
+                    <span>G</span> <span>f</span> <span>A</span>
+                </div>
+                <a href="#" onclick="navigateTo('start-page')">Create An Account</a>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
