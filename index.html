@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainSprout</title>
+    <title>BrainSprout - Mobile App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,57 +13,72 @@
             <div class="content">
                 <h1 class="logo-text">BrainSprout</h1>
                 <div class="tagline">Where Scrolling Meets Learning</div>
-                <div class="hero-image">🧠</div> <h2>Watch. Learn. Grow.</h2>
+                <div class="hero-image">🧠</div>
+                <h2>Watch. Learn. Grow.</h2>
                 <div class="promo-box">
                     <p>Try something new. <br> Grow a little every day.</p>
                 </div>
-                <section id="content-picker" class="screen">
-    <div class="header-simple">
-        <button class="back-btn" onclick="navigateTo('login-page')">‹</button>
-        <div class="mascot-tiny">🧠</div>
-    </div>
-    <h3>Choose What You Love</h3>
-    <p class="subtitle">Select subjects you're interested in</p>
-    
-    <div class="subject-grid">
-        <div class="subject-card active"><span>Σ</span><p>Math</p></div>
-        <div class="subject-card"><span>🧪</span><p>Science</p></div>
-        <div class="subject-card active"><span>🌿</span><p>Biology</p></div>
-        <div class="subject-card"><span>⚗️</span><p>Chemistry</p></div>
-        <div class="subject-card"><span>⚛️</span><p>Physics</p></div>
-        <div class="subject-card"><span>📜</span><p>History</p></div>
-    </div>
-    
-    <button class="btn btn-green" onclick="navigateTo('homepage')">NEXT →</button>
-</section>
-
-<nav class="bottom-nav">
-    <div class="nav-item" onclick="navigateTo('homepage')">🏠</div>
-    <div class="nav-item" onclick="navigateTo('content-picker')">🧭</div>
-    <div class="nav-item">✉️</div>
-    <div class="nav-item" onclick="navigateTo('profile-page')">👤</div>
-</nav>
                 <button class="btn btn-primary" onclick="navigateTo('login-page')">Get Started</button>
             </div>
         </section>
 
         <section id="login-page" class="screen">
-            <div class="header">
-                <div class="mascot-small">🧠</div>
-                <h1 class="logo-text-small">BrainSprout</h1>
+            <div class="header-simple">
+                 <button class="back-btn" onclick="navigateTo('start-page')">‹</button>
+                 <div class="mascot-tiny">🧠</div>
             </div>
             <div class="form-container">
+                <h1 class="logo-text-small">BrainSprout</h1>
+                <p>Where Scrolling Meets Learning</p>
                 <input type="email" placeholder="Email" class="input-field">
                 <input type="password" placeholder="Password" class="input-field">
-                <a href="#" class="forgot-link">Forgot Password?</a>
-                <button class="btn btn-green">Login</button>
+                <div class="links-row">
+                    <a href="#" class="forgot-link">Forgot Email?</a>
+                    <a href="#" class="forgot-link">Reset Password?</a>
+                </div>
+                <button class="btn btn-green" onclick="navigateTo('content-picker')">Login</button>
                 <div class="divider">or continue with</div>
                 <div class="social-icons">
-                    <span>G</span> <span>f</span> <span>A</span>
+                    <span>G</span> <span>f</span> <span></span>
                 </div>
-                <a href="#" onclick="navigateTo('start-page')">Create An Account</a>
+                <a href="#" class="create-link">Create An Account</a>
             </div>
         </section>
+
+        <section id="content-picker" class="screen">
+            <div class="header-simple">
+                <button class="back-btn" onclick="navigateTo('login-page')">‹</button>
+                <div class="mascot-tiny">🧠</div>
+            </div>
+            <h3>Choose What You Love</h3>
+            <p class="subtitle">Select subjects you're interested in</p>
+            
+            <div class="subject-grid">
+                <div class="subject-card active"><span>Σ</span><p>Math</p></div>
+                <div class="subject-card"><span>🧪</span><p>Science</p></div>
+                <div class="subject-card active"><span>🌿</span><p>Biology</p></div>
+                <div class="subject-card"><span>⚗️</span><p>Chemistry</p></div>
+                <div class="subject-card"><span>⚛️</span><p>Physics</p></div>
+                <div class="subject-card"><span>📜</span><p>History</p></div>
+                <div class="subject-card"><span>📖</span><p>Literature</p></div>
+                <div class="subject-card"><span>💻</span><p>Comp Sci</p></div>
+                <div class="subject-card"><span>🎨</span><p>Art</p></div>
+            </div>
+            
+            <button class="btn btn-green" onclick="navigateTo('homepage')">NEXT →</button>
+        </section>
+
+        <section id="homepage" class="screen">
+            <h3>Welcome Back!</h3>
+            <p>Feed loading...</p>
+        </section>
+
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigateTo('homepage')">🏠</div>
+            <div class="nav-item" onclick="navigateTo('content-picker')">🧭</div>
+            <div class="nav-item">✉️</div>
+            <div class="nav-item">👤</div>
+        </nav>
     </div>
 
     <script src="script.js"></script>
