@@ -1,15 +1,9 @@
-function navigateTo(screenId) {
+function navigateTo(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
+    document.getElementById(id).classList.add('active');
 }
 
-// Subject Toggle
-document.querySelectorAll('.subject-card').forEach(card => {
-    card.addEventListener('click', () => card.classList.toggle('active'));
-});
-
-// Quiz Selection
-function sel(el) {
-    el.parentElement.querySelectorAll('.opt').forEach(o => o.style.background = 'white');
-    el.style.background = '#f39c12';
+function selectOpt(btn) {
+    btn.parentElement.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
 }
