@@ -2,167 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BrainSprout | Full Interactive</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainSprout - Learn Daily</title>
+    <style>
+        :root {
+            --primary-green: #76c893;
+            --soft-pink: #fce4ec;
+            --dark-text: #333;
+            --bg-white: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f0f2f5;
+        }
+
+        /* Mobile Container */
+        .app-container {
+            max-width: 450px;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--bg-white);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Content Feed (Scrollable) */
+        .feed {
+            flex: 1;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .video-slide {
+            height: 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #fff 0%, #e0f2f1 100%);
+        }
+
+        /* Elements from your design */
+        .content-card {
+            width: 85%;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .action-btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        /* Modal / Quiz Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .quiz-box {
+            background: var(--soft-pink);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            height: 60px;
+            background: var(--primary-green);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+        }
+
+        .nav-item { font-size: 1.2rem; cursor: pointer; }
+
+        .hidden { display: none; }
+        .visible { display: flex; }
+    </style>
 </head>
 <body>
 
-    <div class="mobile-container">
-        
-        <section id="start-page" class="screen active bg-white">
-            <h1 class="logo-serif">BrainSprout</h1>
-            <div class="tagline-pill">Where Scrolling Meets Learning</div>
-            <div class="mascot-hero">🧠</div>
-            <div class="hero-bottom">
-                <h3>Watch. Learn. Grow.</h3>
-                <div class="promo-card">Try something new. <br> <strong>Grow a little every day.</strong></div>
-                <button class="btn-purple" onclick="navigateTo('login-page')">Get Started</button>
+<div class="app-container">
+    <div class="feed" id="mainFeed">
+        <section class="video-slide">
+            <div class="content-card">
+                <h3>AP Calculus: Integrals</h3>
+                <p>Learn the fundamentals of calculus basics!</p>
+                <button class="action-btn" onclick="showQuiz()">Take Pop Quiz</button>
             </div>
         </section>
 
-        <section id="homepage" class="screen">
-            <div class="app-header">
-                <span class="logo-serif-sm">BrainSprout</span>
-                <div class="coin-badge">602 🪙</div>
-            </div>
-            <div class="stories-row">
-                <div class="story-circle plus">+</div>
-                <div class="story-circle">👩‍🏫</div>
-                <div class="story-circle">🔬</div>
-                <div class="story-circle">🎨</div>
-            </div>
-            <div class="feed-tabs">
-                <button class="tab-btn active">Explore Page</button>
-                <button class="tab-btn">Subject Page</button>
-            </div>
-            <div class="main-video" onclick="navigateTo('quiz-mcq')">
-                <div class="v-card">
-                    <span class="v-tag">Math</span>
-                    <div class="v-meta">
-                        <h4>AP Calculus: Integrals</h4>
-                        <p>LearnWithFranny</p>
-                    </div>
-                </div>
+        <section class="video-slide" style="background: #fff5f8;">
+            <div class="content-card">
+                <h3>Biology: Photosynthesis</h3>
+                <p>How plants turn light into energy.</p>
+                <button class="action-btn" onclick="showQuiz()">Take Pop Quiz</button>
             </div>
         </section>
-
-        <section id="quiz-mcq" class="screen">
-            <div class="quiz-nav">
-                <button onclick="navigateTo('homepage')">‹</button>
-                <div class="p-bar"><div class="p-fill" style="width: 30%;"></div></div>
-            </div>
-            <h2>Pop Quiz Time!</h2>
-            <div class="quiz-box">
-                <span class="q-label">MCQ</span>
-                <p>What is the sum of interior angles in any triangle?</p>
-                <div class="options">
-                    <button class="opt" onclick="selectOpt(this)">90 degrees</button>
-                    <button class="opt selected" onclick="selectOpt(this)">180 degrees</button>
-                    <button class="opt" onclick="selectOpt(this)">360 degrees</button>
-                </div>
-            </div>
-            <button class="btn-green-wide" onclick="navigateTo('quiz-blank')">Submit Answer</button>
-        </section>
-
-        <section id="quiz-blank" class="screen">
-            <div class="quiz-nav">
-                <button onclick="navigateTo('quiz-mcq')">‹</button>
-                <div class="p-bar"><div class="p-fill" style="width: 60%;"></div></div>
-            </div>
-            <h2>Pop Quiz Time!</h2>
-            <div class="quiz-box">
-                <span class="q-label">Fill In the Blank</span>
-                <p>The sum of all interior angles in a triangle is always <br> <input type="text" class="inline-input" placeholder="Enter Answer"> <br> degrees</p>
-            </div>
-            <button class="btn-green-wide" onclick="navigateTo('summary')">Submit Answer</button>
-        </section>
-
-        <section id="leaderboard" class="screen">
-            <h3>Leaderboard</h3>
-            <div class="rank-banner">#4 You are doing better than 60% of other players!</div>
-            <div class="podium">
-                <div class="pod-item second">
-                    <div class="pod-avatar">🐱</div>
-                    <div class="pod-bar">2</div>
-                    <p>Newjns</p>
-                </div>
-                <div class="pod-item first">
-                    <div class="pod-avatar">👑</div>
-                    <div class="pod-bar">1</div>
-                    <p>Doremon0</p>
-                </div>
-                <div class="pod-item third">
-                    <div class="pod-avatar">🐨</div>
-                    <div class="pod-bar">3</div>
-                    <p>Craig11</p>
-                </div>
-            </div>
-            <div class="rank-list">
-                <div class="rank-row current"><span>4</span> 👤 Jenni0 <span>590 coins</span></div>
-                <div class="rank-row"><span>5</span> 👤 Bellismo11 <span>448 points</span></div>
-            </div>
-        </section>
-
-        <section id="profile" class="screen">
-            <div class="profile-header">
-                <div class="p-pic">👾</div>
-                <h3>@jennio</h3>
-                <p>learning every day</p>
-            </div>
-            <div class="stats-row">
-                <div class="stat-card"><b>24</b><br>Reflections</div>
-                <div class="stat-card"><b>120</b><br>Coins</div>
-                <div class="stat-card"><b>8</b><br>Subjects</div>
-            </div>
-            <div class="profile-tabs">
-                <span>My Reflections</span> <span>Saved</span>
-            </div>
-            <div class="reflection-log">
-                <div class="log-card"><b>History</b><br>The Printing Press Revolution</div>
-                <div class="log-card"><b>Biology</b><br>Photosynthesis & Sunlight</div>
-            </div>
-        </section>
-
-        <section id="summary" class="screen reward-screen">
-            <div class="nav-top"><button onclick="navigateTo('homepage')">‹</button> Summary</div>
-            <div class="confetti-mascot">🧠</div>
-            <h2>You've Earned:</h2>
-            <h1 class="earned-amt">75 Coins 🪙</h1>
-            <div class="reward-btns">
-                <button class="btn-green-wide" onclick="navigateTo('store')">NEXT →</button>
-                <div class="exit-row"><span>REWARDS</span> | <span onclick="navigateTo('homepage')">EXIT</span></div>
-            </div>
-        </section>
-
-        <section id="store" class="screen">
-            <div class="app-header">
-                <h3>Sprout Store</h3>
-                <div class="coin-badge">602 🪙</div>
-            </div>
-            <div class="store-tabs">
-                <button class="s-tab active">Profile Decor</button>
-                <button class="s-tab">Creator Merch</button>
-            </div>
-            <div class="store-main">
-                <div class="store-item large">✨<br>Sprout Aura <button class="buy-small">Buy Now</button></div>
-                <div class="accessory-grid">
-                    <div class="acc-card">🎀<br>500 <button>Buy</button></div>
-                    <div class="acc-card">🎩<br>340 <button>Buy</button></div>
-                    <div class="acc-card">🕶️<br>200 <button>Buy</button></div>
-                </div>
-            </div>
-        </section>
-
-        <nav class="footer-nav">
-            <div class="nav-btn" onclick="navigateTo('homepage')">🏠</div>
-            <div class="nav-btn" onclick="navigateTo('leaderboard')">🏆</div>
-            <div class="nav-btn" onclick="navigateTo('store')">🛍️</div>
-            <div class="nav-btn" onclick="navigateTo('profile')">👤</div>
-        </nav>
     </div>
 
-    <script src="script.js"></script>
+    <div id="quizOverlay" class="overlay">
+        <h2>Pop Quiz Time!</h2>
+        <div class="quiz-box">
+            <p>What is the sum of interior angles in any triangle?</p>
+            <button class="action-btn" style="background:white; color:black; width:100%;" onclick="submitAnswer()">180 degrees</button>
+            <button class="action-btn" style="background:white; color:black; width:100%;" onclick="submitAnswer()">360 degrees</button>
+        </div>
+    </div>
+
+    <div id="reflectionOverlay" class="overlay">
+        <h2>Reflection Time</h2>
+        <p>How are you feeling today?</p>
+        <div style="font-size: 2rem; display: flex; justify-content: space-around;">
+            <span>😊</span><span>🤩</span><span>😐</span><span>😔</span>
+        </div>
+        <textarea placeholder="Coolest thing you learned?" style="margin-top:20px; height: 100px; border-radius: 10px; padding: 10px;"></textarea>
+        <button class="action-btn" onclick="finishSession()">Submit & Earn Coins</button>
+    </div>
+
+    <div class="nav-bar">
+        <span class="nav-item">🏠</span>
+        <span class="nav-item">🎯</span>
+        <span class="nav-item">🛍️</span>
+        <span class="nav-item">👤</span>
+    </div>
+</div>
+
+<script>
+    function showQuiz() {
+        document.getElementById('quizOverlay').style.display = 'flex';
+    }
+
+    function submitAnswer() {
+        document.getElementById('quizOverlay').style.display = 'none';
+        document.getElementById('reflectionOverlay').style.display = 'flex';
+    }
+
+    function finishSession() {
+        alert("75 Coins Earned!");
+        document.getElementById('reflectionOverlay').style.display = 'none';
+    }
+</script>
+
 </body>
 </html>
