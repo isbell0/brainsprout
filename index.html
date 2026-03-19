@@ -152,3 +152,101 @@
     <header>
         <div class="logo">BrainSprout</div>
         <div class="coins">🪙 <span id="coinCount">602</span></div>
+    </header>
+
+    <div class="feed">
+        <section class="lesson-slide">
+            <div class="lesson-card">
+                <div class="lesson-img" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=400')"></div>
+                <div class="lesson-content">
+                    <span class="tag">Math</span>
+                    <h3>AP Calculus: Integrals</h3>
+                    <p>Learn how areas under curves represent total accumulation.</p>
+                    <button class="btn-main" onclick="openQuiz('calculus')">Take Pop Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-slide">
+            <div class="lesson-card">
+                <div class="lesson-img" style="background-image: url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=400')"></div>
+                <div class="lesson-content">
+                    <span class="tag">Biology</span>
+                    <h3>Photosynthesis</h3>
+                    <p>The process by which plants turn sunlight into energy.</p>
+                    <button class="btn-main" onclick="openQuiz('biology')">Take Pop Quiz</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="quizOverlay" class="quiz-overlay">
+        <button onclick="closeQuiz()" style="align-self: flex-start; background:none; border:none; font-size: 30px;">✕</button>
+        <h2 id="quizTitle">Pop Quiz Time!</h2>
+        <div class="quiz-box">
+            <p id="quizQuestion">Question loading...</p>
+            <div id="optionsArea"></div>
+        </div>
+        <p style="color: #888; font-size: 12px;">Earn +75 Coins for correct answers!</p>
+    </div>
+
+    <nav>
+        <span class="nav-icon">🏠</span>
+        <span class="nav-icon">🎯</span>
+        <span class="nav-icon">🛍️</span>
+        <span class="nav-icon">👤</span>
+    </nav>
+</div>
+
+<script>
+    const quizData = {
+        calculus: {
+            question: "What is the sum of all interior angles in a triangle?",
+            options: ["90 degrees", "180 degrees", "360 degrees"],
+            answer: "180 degrees"
+        },
+        biology: {
+            question: "Which organelle is responsible for photosynthesis?",
+            options: ["Mitochondria", "Nucleus", "Chloroplast"],
+            answer: "Chloroplast"
+        }
+    };
+
+    let coins = 602;
+
+    function openQuiz(subject) {
+        const data = quizData[subject];
+        document.getElementById('quizQuestion').innerText = data.question;
+        
+        const optionsArea = document.getElementById('optionsArea');
+        optionsArea.innerHTML = ''; // Clear old buttons
+        
+        data.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(opt, data.answer);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('quizOverlay').classList.add('active');
+    }
+
+    function checkAnswer(selected, correct) {
+        if(selected === correct) {
+            coins += 75;
+            document.getElementById('coinCount').innerText = coins;
+            alert("Correct! +75 Coins 🎊");
+        } else {
+            alert("Oops! Not quite. Try reviewing the lesson.");
+        }
+        closeQuiz();
+    }
+
+    function closeQuiz() {
+        document.getElementById('quizOverlay').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>
