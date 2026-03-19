@@ -1,69 +1,46 @@
-// 1. App State - Keeps track of user progress
-const state = {
-    coins: 602,
-    currentLesson: "Calculus",
-    isQuizOpen: false
+// Initial App State
+let appData = {
+  coins: 602,
+  currentSubject: null
 };
 
-// 2. Select DOM Elements
-const quizOverlay = document.getElementById('quizOverlay');
-const reflectionOverlay = document.getElementById('reflectionOverlay');
-const coinDisplay = document.querySelector('.coin-count'); // If you add a coin counter in HTML
-
-// 3. Logic to Trigger the Quiz
-// This would be called by the "Take Pop Quiz" button
-function openQuiz() {
-    quizOverlay.classList.add('active');
-    state.isQuizOpen = true;
-    
-    // Optional: Haptic feedback feel
-    if (navigator.vibrate) navigator.vibrate(10); 
+// Open the Quiz for a specific lesson
+function openQuiz(subject) {
+  appData.currentSubject = subject;
+  const overlay = document.getElementById('quizOverlay');
+  
+  // Update the UI with specific question (logic simplified)
+  if (subject === 'calculus') {
+    document.getElementById('quizQuestion').innerText = "What is the sum of interior angles in a triangle?";
+  }
+  
+  overlay.classList.add('active');
 }
 
-// 4. MCQ Selection Logic
-function handleAnswerSelection(event) {
-    // Remove 'selected' class from all options first
-    const options = document.querySelectorAll('.mcq-option');
-    options.forEach(opt => opt.classList.remove('selected'));
+// Handle Answer Selection
+function selectAnswer(answer, isCorrect) {
+  const options = document.querySelectorAll('.option-btn');
+  
+  if (isCorrect) {
+    appData.coins += 75;
+    document.getElementById('coinDisplay').innerText = appData.coins;
+    alert("Correct! 🌟 +75 Coins");
     
-    // Highlight the clicked one
-    const selectedBtn = event.target;
-    selectedBtn.classList.add('selected');
-    
-    // Small delay to let the user see their choice before moving to reflection
+    // Transition to Reflection
     setTimeout(() => {
-        transitionToReflection();
-    }, 600);
+      showReflection();
+    }, 500);
+  } else {
+    alert("Try again! Check the lesson content above.");
+  }
 }
 
-// 5. Seamless Transition
-function transitionToReflection() {
-    quizOverlay.classList.remove('active');
-    
-    // Wait for quiz to slide down before sliding reflection up
-    setTimeout(() => {
-        reflectionOverlay.classList.add('active');
-    }, 400);
+function closeQuiz() {
+  document.getElementById('quizOverlay').classList.remove('active');
 }
 
-// 6. Final Reward Logic (The "Summary" Page)
-function finishLesson() {
-    const earnedAmount = 75;
-    state.coins += earnedAmount;
-    
-    // Update the UI if you have a coin element
-    if(coinDisplay) coinDisplay.innerText = state.coins;
-    
-    alert(`Great Work! You earned ${earnedAmount} coins.`);
-    
-    // Reset the app view
-    reflectionOverlay.classList.remove('active');
+function showReflection() {
+  // Logic to switch to the Reflection Screen
+  document.getElementById('quizOverlay').classList.remove('active');
+  document.getElementById('reflectionScreen').classList.add('active');
 }
-
-// 7. Event Listeners for Navigation
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-        // Add logic here to switch between "Home", "Shop", or "Profile"
-        console.log("Navigating to:", item.dataset.target);
-    });
-});
