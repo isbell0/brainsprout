@@ -1,4 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BrainSprout Prototype Interactive</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
 
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #efefef;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #app {
+    max-width: 400px;
+    margin: 0 auto;
+    height: 100vh;
+    background: white;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+
+  header {
+    padding: 15px 20px;
+    background: #50a87e;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 18px 18px 0 0;
+    position: relative;
+  }
+
+  .back-btn {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white;
+    user-select: none;
+    display: none;
+  }
+
+  .back-visible .back-btn {
+    display: block;
+  }
+
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
     padding: 15px 20px 80px 20px;
   }
 
