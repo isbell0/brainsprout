@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BrainSprout Prototype with Reflection & Leaderboard</title>
+<title>BrainSprout Prototype Interactive</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
 
@@ -263,27 +263,6 @@
     font-family: inherit;
   }
 
-  /* Leaderboard */
-  #leaderboard {
-    margin-top: 20px;
-  }
-  #leaderboard h3 {
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 10px;
-  }
-  #leaderboard ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  #leaderboard li {
-    background: #d5f0d6;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-weight: 600;
-    color: #2d6335;
-  }
-
   @media (max-width: 420px) {
     #app {
       max-width: 100vw;
@@ -315,14 +294,7 @@
         <h3>Learn More</h3>
         <p>Explore subjects you love and reflect on your learning journey.</p>
       </div>
-      <button class="btn" id="openReflectionBtn" disabled>Reflection Time</button>
-
-      <div id="leaderboard">
-        <h3>Leaderboard</h3>
-        <ul id="leaderboardList">
-          <!-- Scores appear here -->
-        </ul>
-      </div>
+      <button class="btn" id="openReflectionBtn">Reflection Time</button>
     </section>
   </main>
 
@@ -391,8 +363,6 @@
   const starRating = document.getElementById('starRating');
   const reflectionText = document.getElementById('reflectionText');
   const submitReflectionBtn = document.getElementById('submitReflectionBtn');
-  const leaderboardList = document.getElementById('leaderboardList');
-  const openReflectionBtn = document.getElementById('openReflectionBtn');
 
   // Quiz Data
   const quizQuestions = [
@@ -410,12 +380,7 @@
 
   let currentQuestionIndex = 0;
   let selectedOptionIndex = null;
-  let quizCorrectCount = 0;
 
-  // Leaderboard Data (simple, in-memory)
-  const leaderboard = [];
-
-  // Render quiz question
   function renderQuizQuestion() {
     const q = quizQuestions[currentQuestionIndex];
     quizContent.innerHTML = `
@@ -445,7 +410,6 @@
     const correctIndex = quizQuestions[currentQuestionIndex].answerIndex;
 
     if (selectedOptionIndex === correctIndex) {
-      quizCorrectCount++;
       quizFeedback.textContent = "Correct! 🎉";
       quizFeedback.classList.add('correct');
     } else {
@@ -458,36 +422,17 @@
     setTimeout(() => {
       currentQuestionIndex++;
       if (currentQuestionIndex >= quizQuestions.length) {
-        // Quiz complete: close quiz, show reflection, update leaderboard
         closeQuiz();
-        addToLeaderboard(quizCorrectCount);
-        openReflection();
+        alert("Quiz complete! Great job!");
       } else {
         renderQuizQuestion();
       }
     }, 2000);
   };
 
-  function addToLeaderboard(score) {
-    // For demo, add with timestamp as name
-    const timestamp = new Date().toLocaleTimeString();
-    leaderboard.push({ name: `User @${timestamp}`, score });
-    leaderboard.sort((a, b) => b.score - a.score);
-    if (leaderboard.length > 5) leaderboard.length = 5; // top 5 only
-    renderLeaderboard();
-    // Enable reflection button so user can open reflection manually if needed
-    openReflectionBtn.disabled = false;
-  }
-
-  function renderLeaderboard() {
-    leaderboardList.innerHTML = leaderboard.length === 0 ? '<li>No scores yet</li>' :
-      leaderboard.map(entry => `<li>${entry.name}: ${entry.score} / ${quizQuestions.length}</li>`).join('');
-  }
-
   // Open and close quiz modal
   function openQuiz() {
     currentQuestionIndex = 0;
-    quizCorrectCount = 0;
     renderQuizQuestion();
     quizModal.classList.add('active');
     backBtn.style.display = 'block';
@@ -532,4 +477,77 @@
   };
 
   starRating.onmousemove = (e) => {
-    if (e.target.classList.contains
+    if (e.target.classList.contains('star')) {
+      const val = parseInt(e.target.dataset.value);
+      [...starRating.children].forEach(star => {
+        star.classList.toggle('hovered', parseInt(star.dataset.value) <= val);
+      });
+    }
+  };
+  starRating.onmouseleave = () => {
+    [...starRating.children].forEach(star => star.classList.remove('hovered'));
+  };
+  starRating.onclick = (e) => {
+    if (e.target.classList.contains('star')) {
+      const val = parseInt(e.target.dataset.value);
+      [...starRating.children].forEach(star => {
+        star.classList.toggle('selected', parseInt(star.dataset.value) <= val);
+      });
+      checkReflectionSubmit();
+    }
+  };
+
+  reflectionText.oninput = checkReflectionSubmit;
+
+  function checkReflectionSubmit() {
+    const moodSelected = [...moodOptions.children].some(btn => btn.classList.contains('selected'));
+    const ratingSelected = [...starRating.children].some(star => star.classList.contains('selected'));
+    const textEntered = reflectionText.value.trim().length > 0;
+    submitReflectionBtn.disabled = !(moodSelected && ratingSelected && textEntered);
+  }
+
+  submitReflectionBtn.onclick = () => {
+    alert("Thanks for your reflection! 🌱");
+    closeReflection();
+  };
+
+  function resetReflection() {
+    [...moodOptions.children].forEach(btn => btn.classList.remove('selected'));
+    [...starRating.children].forEach(star => star.classList.remove('selected', 'hovered'));
+    reflectionText.value = '';
+    submitReflectionBtn.disabled = true;
+  }
+
+  // Navigation buttons
+  navHome.onclick = () => {
+    closeQuiz();
+    closeReflection();
+    backBtn.style.display = 'none';
+    header.classList.remove('back-visible');
+    navHome.classList.add('active');
+    navQuiz.classList.remove('active');
+    navReflection.classList.remove('active');
+    homePage.classList.add('active');
+  };
+  navQuiz.onclick = () => {
+    openQuiz();
+  };
+  navReflection.onclick = () => {
+    openReflection();
+  };
+
+  // Back button closes quiz or reflection modals
+  backBtn.onclick = () => {
+    if (quizModal.classList.contains('active')) {
+      closeQuiz();
+    } else if (reflectionModal.classList.contains('active')) {
+      closeReflection();
+    }
+  };
+
+  // Homepage buttons
+  document.getElementById('startQuizBtn').onclick = openQuiz;
+  document.getElementById('openReflectionBtn').onclick = openReflection;
+</script>
+</body>
+</html>
