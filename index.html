@@ -1,252 +1,533 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainSprout - Interactive</title>
-    <style>
-        :root {
-            --primary-green: #76c893;
-            --soft-pink: #fce4ec;
-            --accent-orange: #f3a952;
-            --dark-text: #1a1a1a;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BrainSprout Prototype</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #efefef;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-        body {
-            margin: 0;
-            background-color: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  /* Container */
+  #app {
+    max-width: 400px;
+    margin: 0 auto;
+    height: 100vh;
+    background: white;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
 
-        /* Mobile Frame */
-        .app-container {
-            width: 375px;
-            height: 812px;
-            background: white;
-            border-radius: 40px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+  /* Header */
+  header {
+    padding: 15px 20px;
+    background: #50a87e;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 18px 18px 0 0;
+    position: relative;
+  }
 
-        /* Header */
-        header {
-            padding: 20px 20px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-weight: bold; font-size: 22px; font-family: serif; }
-        .coins { background: #e9f5ee; padding: 5px 12px; border-radius: 20px; font-weight: bold; color: #2d6a4f; }
+  header .back-btn {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: white;
+    user-select: none;
+    display: none;
+  }
 
-        /* Feed Area */
-        .feed {
-            flex: 1;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none;
-        }
-        .feed::-webkit-scrollbar { display: none; }
+  /* Show back button only on some views */
+  header.back-visible .back-btn {
+    display: block;
+  }
 
-        .lesson-slide {
-            height: 100%;
-            scroll-snap-align: start;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-        }
+  /* Main Content scrollable */
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px 20px 80px 20px;
+  }
 
-        /* Lesson Card Styling */
-        .lesson-card {
-            flex: 1;
-            background: #f8f9fa;
-            border-radius: 25px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-        }
-        .lesson-img {
-            height: 60%;
-            background: #ddd center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
-        .lesson-content { padding: 20px; }
-        .tag { background: var(--primary-green); color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; }
+  /* Footer nav */
+  footer {
+    background: #50a87e;
+    border-radius: 0 0 18px 18px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+  footer button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    outline: none;
+  }
+  footer button.active {
+    text-shadow: 0 0 6px #ddd;
+  }
 
-        /* Pop-up Quiz Styling */
-        .quiz-overlay {
-            position: absolute;
-            top: 100%; /* Hidden at bottom */
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-            z-index: 100;
-            padding: 40px 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .quiz-overlay.active { top: 0; }
+  /* Cards */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 12px 15px;
+  }
 
-        .quiz-box {
-            background: var(--soft-pink);
-            width: 100%;
-            padding: 30px 20px;
-            border-radius: 25px;
-            text-align: center;
-            margin: 20px 0;
-        }
+  .card img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
 
-        /* Buttons */
-        .btn-main {
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .option-btn {
-            background: white;
-            border: 2px solid #eee;
-            padding: 15px;
-            width: 100%;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .option-btn:active { background: var(--accent-orange); color: white; }
+  .card h2 {
+    margin: 0 0 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+  }
 
-        /* Nav Bar */
-        nav {
-            height: 75px;
-            background: var(--primary-green);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .nav-icon { font-size: 24px; color: white; cursor: pointer; opacity: 0.8; }
-    </style>
+  .card p {
+    margin: 0 0 10px;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #50a87e;
+    border: none;
+    border-radius: 22px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  .btn:hover {
+    background: #3e7d61;
+  }
+
+  /* Scrollbar */
+  main::-webkit-scrollbar {
+    width: 8px;
+  }
+  main::-webkit-scrollbar-thumb {
+    background-color: #50a87e;
+    border-radius: 10px;
+  }
+
+  /* Quiz modal */
+  #quizModal, #reflectionModal {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.35);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 1000;
+  }
+
+  #quizModal.active, #reflectionModal.active {
+    display: flex;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 18px;
+    max-width: 350px;
+    width: 100%;
+    padding: 20px 25px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  }
+
+  .modal-header {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+  }
+
+  /* Quiz question */
+  .question {
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    color: #222;
+  }
+
+  .options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+  }
+
+  .options li {
+    background: #f8d9e2;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .options li.selected {
+    background: #e87161;
+    color: white;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background: #50a87e;
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 12px 18px;
+    width: 100%;
+    border-radius: 22px;
+    cursor: pointer;
+  }
+
+  .submit-btn:disabled {
+    background: #a1cbb2;
+    cursor: not-allowed;
+  }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #e87161;
+  }
+  .feedback.correct {
+    color: #3c8c4a;
+  }
+
+  /* Reflection */
+  .mood-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+  }
+
+  .mood-options button {
+    background: #f2f2f2;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    user-select: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .mood-options button.selected {
+    border-color: #50a87e;
+  }
+
+  /* Star rating */
+  .stars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .star {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ddd;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+
+  .star.selected,
+  .star.hovered {
+    color: #f0a500;
+  }
+
+  /* Text input */
+  textarea, input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-bottom: 15px;
+    font-family: inherit;
+  }
+
+  /* Responsive */
+  @media (max-width: 420px) {
+    #app {
+      max-width: 100vw;
+      border-radius: 0;
+      height: 100vh;
+    }
+  }
+</style>
 </head>
 <body>
+<div id="app">
+  <header>
+    <div class="back-btn" id="backBtn">&lt;</div>
+    BrainSprout
+  </header>
 
-<div class="app-container">
-    <header>
-        <div class="logo">BrainSprout</div>
-        <div class="coins">🪙 <span id="coinCount">602</span></div>
-    </header>
+  <main id="mainContent">
+    <!-- Home page -->
+    <section id="homePage" class="page active">
+      <h2>Welcome to BrainSprout!</h2>
+      <p>Watch. Learn. Grow.</p>
+      <div class="card">
+        <h3>Featured Content</h3>
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Calculus" />
+        <p><strong>AP Calculus: Integrals</strong></p>
+        <button class="btn" id="startQuizBtn">Take Quiz</button>
+      </div>
+      <div class="card">
+        <h3>Learn More</h3>
+        <p>Explore subjects you love and reflect on your learning journey.</p>
+      </div>
+      <button class="btn" id="openReflectionBtn">Reflection Time</button>
+    </section>
 
-    <div class="feed">
-        <section class="lesson-slide">
-            <div class="lesson-card">
-                <div class="lesson-img" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=400')"></div>
-                <div class="lesson-content">
-                    <span class="tag">Math</span>
-                    <h3>AP Calculus: Integrals</h3>
-                    <p>Learn how areas under curves represent total accumulation.</p>
-                    <button class="btn-main" onclick="openQuiz('calculus')">Take Pop Quiz</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="lesson-slide">
-            <div class="lesson-card">
-                <div class="lesson-img" style="background-image: url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=400')"></div>
-                <div class="lesson-content">
-                    <span class="tag">Biology</span>
-                    <h3>Photosynthesis</h3>
-                    <p>The process by which plants turn sunlight into energy.</p>
-                    <button class="btn-main" onclick="openQuiz('biology')">Take Pop Quiz</button>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="quizOverlay" class="quiz-overlay">
-        <button onclick="closeQuiz()" style="align-self: flex-start; background:none; border:none; font-size: 30px;">✕</button>
-        <h2 id="quizTitle">Pop Quiz Time!</h2>
-        <div class="quiz-box">
-            <p id="quizQuestion">Question loading...</p>
-            <div id="optionsArea"></div>
+    <!-- Quiz page (in modal) -->
+    <div id="quizModal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-content" role="document">
+        <div class="modal-header">Pop Quiz Time! Test Your Knowledge</div>
+        <div id="quizContent">
+          <!-- JS generated quiz content -->
         </div>
-        <p style="color: #888; font-size: 12px;">Earn +75 Coins for correct answers!</p>
+        <button class="submit-btn" id="submitQuizBtn" disabled>Submit Answer</button>
+        <div id="quizFeedback" class="feedback"></div>
+      </div>
     </div>
 
-    <nav>
-        <span class="nav-icon">🏠</span>
-        <span class="nav-icon">🎯</span>
-        <span class="nav-icon">🛍️</span>
-        <span class="nav-icon">👤</span>
-    </nav>
+    <!-- Reflection modal -->
+    <div id="reflectionModal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-content" role="document">
+        <div class="modal-header">Reflection Time</div>
+        <p>How Are You Feeling Today?</p>
+        <div class="mood-options" id="moodOptions">
+          <button data-mood="happy" title="Happy">😊</button>
+          <button data-mood="excited" title="Excited">🤩</button>
+          <button data-mood="calm" title="Calm">😌</button>
+          <button data-mood="okay" title="Okay">🙂</button>
+          <button data-mood="sad" title="Sad">☹️</button>
+          <button data-mood="worried" title="Worried">😟</button>
+          <button data-mood="confused" title="Confused">😕</button>
+          <button data-mood="tired" title="Tired">😴</button>
+        </div>
+
+        <p>Rate Your Lesson</p>
+        <div class="stars" id="starRating">
+          <span class="star" data-value="1">&#9733;</span>
+          <span class="star" data-value="2">&#9733;</span>
+          <span class="star" data-value="3">&#9733;</span>
+          <span class="star" data-value="4">&#9733;</span>
+          <span class="star" data-value="5">&#9733;</span>
+        </div>
+
+        <p>Coolest Thing You Learned?</p>
+        <textarea id="reflectionText" placeholder="Tell us in 5 words or less" maxlength="100"></textarea>
+        <button class="submit-btn" id="submitReflectionBtn" disabled>Submit Reflection</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <button id="navHome" class="active" title="Home">&#8962;</button>
+    <button id="navQuiz" title="Quiz">&#x1F4DD;</button>
+    <button id="navReflection" title="Reflection">&#x1F4AC;</button>
+  </footer>
 </div>
 
 <script>
-    const quizData = {
-        calculus: {
-            question: "What is the sum of all interior angles in a triangle?",
-            options: ["90 degrees", "180 degrees", "360 degrees"],
-            answer: "180 degrees"
-        },
-        biology: {
-            question: "Which organelle is responsible for photosynthesis?",
-            options: ["Mitochondria", "Nucleus", "Chloroplast"],
-            answer: "Chloroplast"
-        }
-    };
+  const app = document.getElementById('app');
+  const mainContent = document.getElementById('mainContent');
+  const homePage = document.getElementById('homePage');
+  const quizModal = document.getElementById('quizModal');
+  const reflectionModal = document.getElementById('reflectionModal');
+  const quizContent = document.getElementById('quizContent');
+  const submitQuizBtn = document.getElementById('submitQuizBtn');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const backBtn = document.getElementById('backBtn');
+  const navHome = document.getElementById('navHome');
+  const navQuiz = document.getElementById('navQuiz');
+  const navReflection = document.getElementById('navReflection');
 
-    let coins = 602;
+  // Reflection Elements
+  const moodOptions = document.getElementById('moodOptions');
+  const starRating = document.getElementById('starRating');
+  const reflectionText = document.getElementById('reflectionText');
+  const submitReflectionBtn = document.getElementById('submitReflectionBtn');
 
-    function openQuiz(subject) {
-        const data = quizData[subject];
-        document.getElementById('quizQuestion').innerText = data.question;
-        
-        const optionsArea = document.getElementById('optionsArea');
-        optionsArea.innerHTML = ''; // Clear old buttons
-        
-        data.options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(opt, data.answer);
-            optionsArea.appendChild(btn);
-        });
+  // Quiz Data (simplified, you can expand)
+  const quizQuestions = [
+    {
+      question: "What is the sum of interior angles in any triangle?",
+      options: ["90 degrees", "180 degrees", "360 degrees", "270 degrees"],
+      answerIndex: 1
+    },
+    {
+      question: "A geometric figure that represents an exact location and has no size, shape, or dimension is called a:",
+      options: ["Intersection", "Angle", "Point"],
+      answerIndex: 2
+    }
+  ];
 
-        document.getElementById('quizOverlay').classList.add('active');
+  let currentQuestionIndex = 0;
+  let selectedOptionIndex = null;
+
+  // Helper to render quiz question
+  function renderQuizQuestion() {
+    const q = quizQuestions[currentQuestionIndex];
+    quizContent.innerHTML = `
+      <div class="question">${q.question}</div>
+      <ul class="options">
+        ${q.options.map((opt, idx) => `<li data-index="${idx}">${opt}</li>`).join('')}
+      </ul>
+    `;
+    selectedOptionIndex = null;
+    submitQuizBtn.disabled = true;
+    quizFeedback.textContent = '';
+  }
+
+  // Select option handler
+  quizContent.onclick = function(e) {
+    if (e.target.tagName === 'LI') {
+      // Remove previous selection
+      [...quizContent.querySelectorAll('li')].forEach(li => li.classList.remove('selected'));
+      e.target.classList.add('selected');
+      selectedOptionIndex = parseInt(e.target.dataset.index);
+      submitQuizBtn.disabled = false;
+      quizFeedback.textContent = '';
+    }
+  };
+
+  // Submit quiz answer
+  submitQuizBtn.onclick = function() {
+    if (selectedOptionIndex === null) return;
+    const correctIndex = quizQuestions[currentQuestionIndex].answerIndex;
+    if (selectedOptionIndex === correctIndex) {
+      quizFeedback.textContent = "Correct! 🎉";
+      quizFeedback.classList.add('correct');
+    } else {
+      quizFeedback.textContent = `Oops! The correct answer is "${quizQuestions[currentQuestionIndex].options[correctIndex]}".`;
+      quizFeedback.classList.remove('correct');
     }
 
-    function checkAnswer(selected, correct) {
-        if(selected === correct) {
-            coins += 75;
-            document.getElementById('coinCount').innerText = coins;
-            alert("Correct! +75 Coins 🎊");
-        } else {
-            alert("Oops! Not quite. Try reviewing the lesson.");
-        }
+    // Move to next or close modal after delay
+    submitQuizBtn.disabled = true;
+    setTimeout(() => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex >= quizQuestions.length) {
         closeQuiz();
-    }
+      } else {
+        renderQuizQuestion();
+      }
+    }, 2000);
+  };
 
-    function closeQuiz() {
-        document.getElementById('quizOverlay').classList.remove('active');
-    }
-</script>
+  // Open quiz modal
+  function openQuiz() {
+    currentQuestionIndex = 0;
+    renderQuizQuestion();
+    quizModal.classList.add('active');
+    backBtn.style.display = 'block';
+    document.querySelector('header').classList.add('back-visible');
+    navHome.classList.remove('active');
+    navQuiz.classList.add('active');
+    navReflection.classList.remove('active');
+  }
 
-</body>
-</html>
+  // Close quiz modal
+  function closeQuiz() {
+    quizModal.classList.remove('active');
+    backBtn.style.display = 'none';
+    document.querySelector('header').classList.remove('back-visible');
+    navHome.classList.add('active');
+    navQuiz.classList.remove('active');
+  }
+
+  // Open reflection modal
+  function openReflection() {
+    reflectionModal.classList.add('active');
+    backBtn.style.display = 'block';
+    document.querySelector('header').classList.add('back-visible');
+    navHome.classList.remove('active');
+    navReflection.classList.add('active');
+    navQuiz.classList.remove('active');
+
+    // Reset reflection form
+    [...moodOptions.children].forEach(btn => btn.classList.remove('selected'));
+    [...starRating.children].forEach(star => star.classList.remove('selected', 'hovered'));
+    submitReflectionBtn.disabled = true;
+    reflectionText.value = '';
+  }
+
+  // Close reflection modal
+  function closeReflection() {
+    reflectionModal.classList.remove('active');
+    backBtn.style.display = 'none';
+    document.querySelector('header').classList.remove('back-visible');
+    navHome.classList.add('active');
+    navReflection.classList.remove('active');
+  }
+
+  // Mood select
+  moodOptions.onclick = e => {
+    if (e.target.tagName === 'BUTTON') {
+      [...moodOptions.children].forEach(btn => btn.classList.remove('selected'));
+      e.target.classList.add('selected');
+      checkReflectionSubmit();
+    }
+  };
+
+  // Star rating select
+  starRating.onmousemove = e => {
+    if (e.target.classList.contains('star')) {
+      const val = parseInt(e.target.dataset.value);
+      [...starRating.children].forEach(star => {
+        star.classList.toggle('hovered', parseInt(star.dataset.value) <= val);
+      });
+    }
+  };
+  starRating.onmouseleave = () => {
+    [...star
