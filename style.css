@@ -1,35 +1,98 @@
 :root {
-    --purple: #9290ff; --green: #68c3a3; --pink: #fde2e4; --nav: #2d5a42;
+    /* Color Palette from your Figma */
+    --primary-green: #76c893;      /* Buttons and Nav */
+    --light-green: #e9f5ee;        /* Success/Backgrounds */
+    --accent-pink: #fce4ec;       /* Quiz Backgrounds */
+    --accent-orange: #f3a952;     /* Selected MCQ option */
+    --text-main: #1a1a1a;
+    --bg-gray: #f8f9fa;
 }
 
-body { margin: 0; background: #222; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Inter', sans-serif; }
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-.mobile-container { width: 375px; height: 812px; background: white; border-radius: 40px; position: relative; overflow: hidden; }
+body {
+    background-color: #333; /* Simulate a dark background behind the phone */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-.screen { display: none; flex-direction: column; height: 100%; padding: 25px; box-sizing: border-box; text-align: center; overflow-y: auto; }
-.screen.active { display: flex; }
+/* Phone Container */
+.app-container {
+    width: 375px; /* Standard iPhone width */
+    height: 812px;
+    background: white;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
 
-/* Podium Layout */
-.podium { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 160px; margin: 20px 0; }
-.pod-item { flex: 1; display: flex; flex-direction: column; align-items: center; }
-.pod-bar { width: 100%; background: var(--purple); color: white; border-radius: 10px 10px 0 0; padding-top: 10px; }
-.first .pod-bar { height: 80px; background: #7b79e6; }
-.second .pod-bar { height: 60px; }
-.third .pod-bar { height: 40px; }
+/* Header with Logo */
+header {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Serif', Georgia; /* To match "BrainSprout" font */
+}
 
-/* Stats Cards */
-.stats-row { display: flex; justify-content: space-between; margin: 20px 0; }
-.stat-card { background: #f8f8f8; padding: 10px; border-radius: 12px; flex: 1; margin: 0 5px; font-size: 0.7rem; border: 1px solid #eee; }
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
 
-/* Store Grid */
-.accessory-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-.acc-card { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 10px; font-size: 0.8rem; }
-.acc-card button { width: 100%; background: var(--green); border: none; color: white; border-radius: 5px; margin-top: 5px; }
+/* The Feed - This handles the "TikTok" swipe feel */
+.feed {
+    flex: 1;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
 
-/* UI Elements */
-.logo-serif { font-family: 'DM Serif Display', serif; font-size: 3rem; margin: 0; }
-.btn-purple { background: var(--purple); color: white; padding: 15px; border-radius: 15px; border: none; width: 100%; font-weight: bold; }
-.btn-green-wide { background: var(--green); color: white; padding: 15px; border-radius: 25px; border: none; width: 100%; font-weight: bold; margin-top: auto; cursor: pointer; }
-.inline-input { border: none; border-bottom: 2px solid var(--purple); width: 120px; text-align: center; font-size: 1rem; }
+.feed::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
 
-.footer-nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: var(--nav); border-radius: 25px 25px 0 0; display: flex; justify-content: space-around; align-items: center; font-size: 1.5rem; color: white; }
+.video-slide {
+    height: 100%;
+    scroll-snap-align: start;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Lesson Card Style */
+.lesson-card {
+    background: white;
+    border-radius: 25px;
+    border: 1px solid #eee;
+    height: 80%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+}
+
+.lesson-image {
+    width: 100%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+}
+
+.lesson-info {
+    padding: 15px;
+}
+
+/* Pop-up Quiz Overlay */
+.quiz-overlay {
+    position: absolute;
+    bottom: -100%; /* Start hidden at bottom */
+    left: 0;
+    width: 100%;
+    height: 100%;
