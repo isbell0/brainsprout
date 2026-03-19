@@ -3,180 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainSprout - Learn Daily</title>
+    <title>BrainSprout - Interactive</title>
     <style>
         :root {
             --primary-green: #76c893;
             --soft-pink: #fce4ec;
-            --dark-text: #333;
-            --bg-white: #ffffff;
+            --accent-orange: #f3a952;
+            --dark-text: #1a1a1a;
         }
 
-        body, html {
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
             margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100%;
-            overflow: hidden;
-            background-color: #f0f2f5;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        /* Mobile Container */
+        /* Mobile Frame */
         .app-container {
-            max-width: 450px;
-            height: 100vh;
-            margin: 0 auto;
-            background: var(--bg-white);
+            width: 375px;
+            height: 812px;
+            background: white;
+            border-radius: 40px;
             position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* Content Feed (Scrollable) */
+        /* Header */
+        header {
+            padding: 20px 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-weight: bold; font-size: 22px; font-family: serif; }
+        .coins { background: #e9f5ee; padding: 5px 12px; border-radius: 20px; font-weight: bold; color: #2d6a4f; }
+
+        /* Feed Area */
         .feed {
             flex: 1;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
+        .feed::-webkit-scrollbar { display: none; }
 
-        .video-slide {
+        .lesson-slide {
             height: 100%;
-            width: 100%;
             scroll-snap-align: start;
-            position: relative;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(180deg, #fff 0%, #e0f2f1 100%);
         }
 
-        /* Elements from your design */
-        .content-card {
-            width: 85%;
-            padding: 20px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-
-        .action-btn {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 12px 30px;
+        /* Lesson Card Styling */
+        .lesson-card {
+            flex: 1;
+            background: #f8f9fa;
             border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
         }
+        .lesson-img {
+            height: 60%;
+            background: #ddd center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .lesson-content { padding: 20px; }
+        .tag { background: var(--primary-green); color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; }
 
-        /* Modal / Quiz Overlay */
-        .overlay {
+        /* Pop-up Quiz Styling */
+        .quiz-overlay {
             position: absolute;
-            top: 0;
+            top: 100%; /* Hidden at bottom */
             left: 0;
             width: 100%;
             height: 100%;
             background: white;
-            z-index: 10;
-            display: none;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            z-index: 100;
+            padding: 40px 25px;
+            display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
+            align-items: center;
         }
+        .quiz-overlay.active { top: 0; }
 
         .quiz-box {
             background: var(--soft-pink);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
+            width: 100%;
+            padding: 30px 20px;
+            border-radius: 25px;
             text-align: center;
+            margin: 20px 0;
         }
 
-        /* Navigation Bar */
-        .nav-bar {
-            height: 60px;
+        /* Buttons */
+        .btn-main {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .option-btn {
+            background: white;
+            border: 2px solid #eee;
+            padding: 15px;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-btn:active { background: var(--accent-orange); color: white; }
+
+        /* Nav Bar */
+        nav {
+            height: 75px;
             background: var(--primary-green);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            color: white;
         }
-
-        .nav-item { font-size: 1.2rem; cursor: pointer; }
-
-        .hidden { display: none; }
-        .visible { display: flex; }
+        .nav-icon { font-size: 24px; color: white; cursor: pointer; opacity: 0.8; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="feed" id="mainFeed">
-        <section class="video-slide">
-            <div class="content-card">
-                <h3>AP Calculus: Integrals</h3>
-                <p>Learn the fundamentals of calculus basics!</p>
-                <button class="action-btn" onclick="showQuiz()">Take Pop Quiz</button>
-            </div>
-        </section>
-
-        <section class="video-slide" style="background: #fff5f8;">
-            <div class="content-card">
-                <h3>Biology: Photosynthesis</h3>
-                <p>How plants turn light into energy.</p>
-                <button class="action-btn" onclick="showQuiz()">Take Pop Quiz</button>
-            </div>
-        </section>
-    </div>
-
-    <div id="quizOverlay" class="overlay">
-        <h2>Pop Quiz Time!</h2>
-        <div class="quiz-box">
-            <p>What is the sum of interior angles in any triangle?</p>
-            <button class="action-btn" style="background:white; color:black; width:100%;" onclick="submitAnswer()">180 degrees</button>
-            <button class="action-btn" style="background:white; color:black; width:100%;" onclick="submitAnswer()">360 degrees</button>
-        </div>
-    </div>
-
-    <div id="reflectionOverlay" class="overlay">
-        <h2>Reflection Time</h2>
-        <p>How are you feeling today?</p>
-        <div style="font-size: 2rem; display: flex; justify-content: space-around;">
-            <span>😊</span><span>🤩</span><span>😐</span><span>😔</span>
-        </div>
-        <textarea placeholder="Coolest thing you learned?" style="margin-top:20px; height: 100px; border-radius: 10px; padding: 10px;"></textarea>
-        <button class="action-btn" onclick="finishSession()">Submit & Earn Coins</button>
-    </div>
-
-    <div class="nav-bar">
-        <span class="nav-item">🏠</span>
-        <span class="nav-item">🎯</span>
-        <span class="nav-item">🛍️</span>
-        <span class="nav-item">👤</span>
-    </div>
-</div>
-
-<script>
-    function showQuiz() {
-        document.getElementById('quizOverlay').style.display = 'flex';
-    }
-
-    function submitAnswer() {
-        document.getElementById('quizOverlay').style.display = 'none';
-        document.getElementById('reflectionOverlay').style.display = 'flex';
-    }
-
-    function finishSession() {
-        alert("75 Coins Earned!");
-        document.getElementById('reflectionOverlay').style.display = 'none';
-    }
-</script>
-
-</body>
-</html>
+    <header>
+        <div class="logo">BrainSprout</div>
+        <div class="coins">🪙 <span id="coinCount">602</span></div>
